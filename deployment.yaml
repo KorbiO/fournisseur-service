@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fournisseur-service
+  labels:
+    app: fournisseur-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fournisseur-service
+  template:
+    metadata:
+      labels:
+        app: fournisseur-service
+    spec:
+      containers:
+      - name: fournisseur-service
+        imagePullPolicy: Always
+        image: omarkorbi/fournisseur-service
+        ports:
+        - containerPort: 8020
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fournisseur-service
+  labels:
+    app: fournisseur-service
+spec:
+  ports:
+  - port: 8020
+    protocol: TCP
+  selector:
+    app: fournisseur-service
+  type: NodePort
